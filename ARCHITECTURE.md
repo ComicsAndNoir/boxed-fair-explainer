@@ -294,6 +294,55 @@ their trust card, which is expected given how much they each show; further
 compression there started trading away visual hierarchy for diminishing
 returns.
 
+### 6.4 Google Analytics (GA4)
+`src/lib/analytics.ts` is a small `gtag.js` wrapper with one hard rule: never
+load or fire on localhost. `isLocalHost()` treats anything a developer would
+reasonably call "local dev" as localhost — the literal string, `127.0.0.1`,
+`::1`, `0.0.0.0`, and `*.localhost` — not just an exact match, since letting
+analytics fire on `127.0.0.1` while blocking `localhost` would defeat the
+point. This is a deliberate scope decision beyond the literal request; it
+doesn't extend to LAN IPs (e.g. `192.168.x.x`, for testing on a phone) since
+that wasn't asked and starts guessing at edge cases.
+
+`initAnalytics()` (called once from `main.tsx`) checks the real
+`window.location.hostname` and either no-ops entirely — no script tag, no
+network request, `window.gtag` stays undefined — or injects `gtag.js` and
+wires up `dataLayer`. Every other exported function (`trackEvent`,
+`trackPageView`) is a safe no-op when disabled, so call sites never guard
+themselves. Verified in-browser: a full click-through of both variants on
+localhost produced zero requests to `googletagmanager.com`, no script tag, no
+console errors; the real exported `isLocalHost` (imported directly from the
+dev server's module graph, not reimplemented) correctly returns `false` for
+a real domain and a realistic Vercel preview URL, `true` for every localhost
+form above.
+
+**Measurement ID**: a placeholder (`G-XXXXXXXXXX`) until a real GA4 property
+exists, read from `VITE_GA_MEASUREMENT_ID` (see `.env.example`) with the
+placeholder as fallback — swapping in the real ID needs no code changes.
+
+**Funnel tracking**: this SPA has no router — `App.tsx`'s `phase` state and
+`VariantBExplainer`'s `step` state are the only "navigation" that exists.
+Since GA's path/funnel exploration reports key off `page_view`, both fire a
+virtual `page_view` (`page_path`, `page_title`) on every phase/step change:
+`App.tsx` owns `/intro`, `/variant-a`, `/survey`, `/debrief` (deliberately
+excludes `variant-b`, which has no single path); `VariantBExplainer` owns
+`/variant-b/overview` and `/variant-b/step-{1..4}`. Together these let GA
+reconstruct the full path from landing page through either A or B.
+
+**Named events** on every meaningful click, each carrying enough params to
+be individually identifiable: `select_variant`, `continue_to_survey`,
+`submit_survey`, `try_other_variant`, `restart_demo` (all in `App.tsx`, the
+natural single choke point for those actions since it already distinguishes
+"fresh pick from intro" from "switch from debrief" — `tryOtherVariant`
+fires both `try_other_variant` and, via `chooseVariant`, `select_variant`,
+which is intentional: the latter marks every variant activation, the former
+annotates specifically that this one was a switch); `click_nav`, `open_box`,
+`verify_draw`, `try_again` (`VariantBExplainer`); `expand_info`
+(`InfoReveal`, `MathReveal` — carries the trigger's own label as the
+identifier); `toggle_jargon` (`JargonToggle`); `click_real_world_link`
+(`RealWorldExample`, outbound link clicks); `shuffle_client_seed`
+(`Step2UserInput`).
+
 ## 7. Acceptance criteria traceability
 
 Each item in requirements Section 11 maps to a concrete mechanism above:

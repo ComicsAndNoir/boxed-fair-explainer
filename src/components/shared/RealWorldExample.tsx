@@ -1,5 +1,6 @@
 import { ExternalLink, Landmark } from "lucide-react";
 import type { ReactNode } from "react";
+import { trackEvent } from "../../lib/analytics";
 import styles from "./RealWorldExample.module.css";
 
 interface RealWorldExampleProps {
@@ -27,7 +28,13 @@ export function RealWorldExample({ description, href, linkLabel }: RealWorldExam
       <div className={styles.body}>
         <span className={styles.label}>Already trusted, every day</span>
         <p className={styles.desc}>{description}</p>
-        <a className={styles.link} href={href} target="_blank" rel="noopener noreferrer">
+        <a
+          className={styles.link}
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => trackEvent("click_real_world_link", { href, link_label: linkLabel })}
+        >
           {linkLabel} <ExternalLink size={13} aria-hidden />
         </a>
       </div>

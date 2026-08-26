@@ -1,4 +1,5 @@
 import { useJargonToggle } from "../../hooks/jargonToggleContext";
+import { trackEvent } from "../../lib/analytics";
 import styles from "./JargonToggle.module.css";
 
 export function JargonToggle() {
@@ -15,7 +16,10 @@ export function JargonToggle() {
         aria-checked={showJargon}
         aria-labelledby="jargon-toggle-label"
         className={`${styles.switch} ${showJargon ? styles.switchOn : ""}`}
-        onClick={() => setShowJargon(!showJargon)}
+        onClick={() => {
+          trackEvent("toggle_jargon", { enabled: !showJargon });
+          setShowJargon(!showJargon);
+        }}
       >
         <span className={`${styles.knob} ${showJargon ? styles.knobOn : ""}`} />
       </button>

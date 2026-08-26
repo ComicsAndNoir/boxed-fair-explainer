@@ -3,6 +3,7 @@ import { Calculator, CheckCircle2, ChevronDown, XCircle } from "lucide-react";
 import { useId, useState } from "react";
 import type { DropTableEntry } from "../../domain/types";
 import { useVerificationTrace } from "../../hooks/useVerificationTrace";
+import { trackEvent } from "../../lib/analytics";
 import { revealVariants } from "../../styles/motion";
 import styles from "./MathReveal.module.css";
 
@@ -42,7 +43,11 @@ export function MathReveal({ serverSeed, serverSeedHash, clientSeed, nonce, drop
         className={styles.trigger}
         aria-expanded={open}
         aria-controls={contentId}
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => {
+          const next = !open;
+          trackEvent("expand_info", { label: "Show me the actual math", expanded: next });
+          setOpen(next);
+        }}
       >
         <span className={styles.triggerLabel}>
           <Calculator size={16} aria-hidden />

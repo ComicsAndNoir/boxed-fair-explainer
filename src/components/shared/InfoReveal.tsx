@@ -2,6 +2,7 @@ import { ChevronDown } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useId, useState, type ReactNode } from "react";
 import { useJargonToggle } from "../../hooks/jargonToggleContext";
+import { trackEvent } from "../../lib/analytics";
 import { revealVariants } from "../../styles/motion";
 import styles from "./InfoReveal.module.css";
 
@@ -33,7 +34,11 @@ export function InfoReveal({ label, children, jargonTerm, jargonExplanation }: I
         className={styles.trigger}
         aria-expanded={open}
         aria-controls={contentId}
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => {
+          const next = !open;
+          trackEvent("expand_info", { label, expanded: next });
+          setOpen(next);
+        }}
       >
         <span>{label}</span>
         <ChevronDown className={`${styles.chevron} ${open ? styles.chevronOpen : ""}`} size={18} aria-hidden />

@@ -1,5 +1,6 @@
 import { Shuffle } from "lucide-react";
 import { generateClientSeedSuggestion } from "../../domain/provablyFair";
+import { trackEvent } from "../../lib/analytics";
 import { InfoReveal } from "../shared/InfoReveal";
 import styles from "./WizardSteps.module.css";
 
@@ -29,7 +30,10 @@ export function Step2UserInput({ clientSeed, nonce, onClientSeedChange }: Step2U
           <button
             type="button"
             className={styles.iconButton}
-            onClick={() => onClientSeedChange(generateClientSeedSuggestion())}
+            onClick={() => {
+              trackEvent("shuffle_client_seed");
+              onClientSeedChange(generateClientSeedSuggestion());
+            }}
             aria-label="Shuffle a new random ingredient"
           >
             <Shuffle size={18} aria-hidden />

@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "../../App.module.css";
 import { AppHeader } from "../layout/AppHeader";
 import { StepShell } from "../layout/StepShell";
@@ -8,6 +8,7 @@ import { CompanyName, RealWorldExample } from "../shared/RealWorldExample";
 import { TrustTag } from "../shared/TrustTag";
 import { useMobileScrollCollapse } from "../../hooks/useMobileScrollCollapse";
 import { useProvablyFairDraw } from "../../hooks/useProvablyFairDraw";
+import { trackEvent, trackPageView } from "../../lib/analytics";
 import { Step1Commitment } from "./Step1Commitment";
 import { Step2UserInput } from "./Step2UserInput";
 import { Step3DrawAndMap } from "./Step3DrawAndMap";
@@ -101,12 +102,28 @@ export function VariantBExplainer({ onFinish }: VariantBExplainerProps) {
   const { state, setClientSeed, openBox, verify, tryAgain } = useProvablyFairDraw();
   const { scrollRootRef, disclaimerCollapsed } = useMobileScrollCollapse();
 
+  useEffect(() => {
+    trackPageView(step === 0 ? "/variant-b/overview" : `/variant-b/step-${step}`, `Variant B — ${step === 0 ? "Overview" : `Step ${step}`}`);
+  }, [step]);
+
   function goTo(nextStep: number, dir: 1 | -1) {
+    trackEvent("click_nav", { direction: dir === 1 ? "next" : "back", from_step: step, to_step: nextStep });
     setDirection(dir);
     setStep(nextStep);
   }
 
+  function handleOpenBox() {
+    trackEvent("open_box");
+    openBox();
+  }
+
+  function handleVerify() {
+    trackEvent("verify_draw");
+    verify();
+  }
+
   function handleTryAgain() {
+    trackEvent("try_again");
     tryAgain();
     goTo(3, 1);
   }
@@ -163,7 +180,7 @@ export function VariantBExplainer({ onFinish }: VariantBExplainerProps) {
                   table={state.dropTable}
                   phase={state.phase}
                   outcome={state.outcome}
-                  onOpenBox={openBox}
+                  onOpenBox={handleOpenBox}
                 />
               )}
               {step === 4 && (
@@ -176,7 +193,7 @@ export function VariantBExplainer({ onFinish }: VariantBExplainerProps) {
                   outcome={state.outcome}
                   phase={state.phase}
                   verifyResult={state.verifyResult}
-                  onVerify={verify}
+                  onVerify={handleVerify}
                   onTryAgain={handleTryAgain}
                   onFinish={onFinish}
                 />
