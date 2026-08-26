@@ -39,8 +39,8 @@ export function Step3DrawAndMap({ table, phase, outcome, onOpenBox }: Step3DrawA
       <OddsTable table={table} highlightedId={outcome?.entry.id ?? null} />
 
       <div className={styles.note}>
-        These odds can shift over time as card market prices move — but the odds shown above were the exact ones in
-        effect for this draw, and that's what's locked in.
+        Cards can go up or down in value from day-to-day, and the odds of drawing them adjust accordingly.
+        But the odds for your mix are determined in step 1, and that's locked in.
       </div>
 
       <div className={styles.revealGroup}>
