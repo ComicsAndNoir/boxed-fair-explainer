@@ -1,0 +1,75 @@
+.wrapper {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  padding: var(--space-5) var(--space-4);
+  text-align: center;
+}
+
+.title {
+  font-size: var(--font-size-display);
+  font-weight: 700;
+}
+
+.recap {
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--elevation-1);
+}
+
+.recapRow {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  font-size: var(--font-size-body);
+}
+
+.recapLabel {
+  color: var(--color-text-secondary);
+}
+
+.recapValue {
+  font-weight: 700;
+  color: var(--color-text-primary);
+  text-align: right;
+}
+
+.actionRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.primaryButton {
+  min-height: var(--target-min);
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-pill);
+  border: none;
+  background: var(--color-accent-primary);
+  color: var(--color-text-primary);
+  font-weight: 700;
+  font-size: var(--font-size-body);
+  box-shadow: var(--elevation-2);
+}
+
+.secondaryButton {
+  min-height: var(--target-min);
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-weight: 600;
+  font-size: var(--font-size-body);
+}

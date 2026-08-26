@@ -1,0 +1,58 @@
+.wrapper {
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: var(--elevation-1);
+  overflow: hidden;
+}
+
+.trigger {
+  width: 100%;
+  min-height: var(--target-min);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  background: transparent;
+  border: none;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-body);
+  font-weight: 600;
+  text-align: left;
+}
+
+.trigger:hover {
+  background: color-mix(in srgb, var(--color-accent-primary) var(--state-hover-opacity), transparent);
+}
+
+.chevron {
+  flex-shrink: 0;
+  color: var(--color-text-secondary);
+  transition: transform var(--motion-duration-short) var(--motion-easing-standard);
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+.content {
+  padding: 0 var(--space-3) var(--space-3);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-body);
+}
+
+.jargon {
+  margin-top: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-raised);
+  border-left: 3px solid var(--color-accent-violet);
+}
+
+.jargonTerm {
+  color: var(--color-accent-violet);
+  font-weight: 700;
+  font-size: var(--font-size-label);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}

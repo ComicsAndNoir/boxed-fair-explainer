@@ -1,0 +1,17 @@
+.tag {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--color-accent-cyan) 12%, var(--color-surface));
+  border: 1px solid color-mix(in srgb, var(--color-accent-cyan) 40%, transparent);
+  font-size: var(--font-size-label);
+  color: var(--color-text-secondary);
+}
+
+.icon {
+  flex-shrink: 0;
+  color: var(--color-accent-cyan);
+}

@@ -1,0 +1,174 @@
+.wrapper {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-5);
+  padding: var(--space-5) var(--space-4) var(--space-4);
+}
+
+.hero {
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  text-align: center;
+}
+
+.heroTitle {
+  font-size: var(--font-size-display);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.heroTitle span {
+  color: var(--color-accent-primary-glow);
+}
+
+.heroSubtitle {
+  font-size: var(--font-size-body);
+  color: var(--color-text-secondary);
+}
+
+.stageRow {
+  width: 100%;
+  overflow-x: auto;
+  padding: var(--space-2) var(--space-1) var(--space-3);
+}
+
+/*
+ * fit-content + auto margins centers this track when it's narrower than
+ * .stageRow. When it's wider (mobile), the margins collapse to 0 and it
+ * sits flush at the scrollable start — card 1 first, scroll right for more
+ * — rather than `justify-content: center` on the scroll container itself,
+ * which would open pre-scrolled to the middle and hide card 1 off-screen.
+ */
+.stageTrack {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.stageCard {
+  flex-shrink: 0;
+  width: 152px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--elevation-1);
+  text-align: center;
+}
+
+.stageNumber {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-label);
+  font-weight: 700;
+  background: var(--color-accent-primary);
+  color: var(--color-text-primary);
+}
+
+.stageIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in srgb, var(--color-accent-primary) 18%, var(--color-surface));
+}
+
+.stageLabel {
+  font-size: var(--font-size-body);
+  font-weight: 600;
+}
+
+.stageDesc {
+  font-size: var(--font-size-label);
+  color: var(--color-text-secondary);
+}
+
+.connector {
+  flex-shrink: 0;
+  color: var(--color-text-secondary);
+  opacity: 0.6;
+}
+
+.trustSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  max-width: 560px;
+  text-align: center;
+}
+
+.trustHeading {
+  font-size: var(--font-size-label);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-accent-cyan);
+}
+
+.trustRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.trustBadge {
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  box-shadow: var(--elevation-1);
+  border: 1px solid var(--color-border);
+  font-size: var(--font-size-body);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.trustHint {
+  font-size: var(--font-size-label);
+  color: var(--color-text-secondary);
+}
+
+.ctaArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.ctaButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--target-min);
+  padding: 0 var(--space-5);
+  border-radius: var(--radius-pill);
+  border: none;
+  background: var(--color-accent-primary);
+  color: var(--color-text-primary);
+  font-weight: 700;
+  font-size: var(--font-size-title);
+  box-shadow: var(--elevation-2);
+}
+
+.ctaHint {
+  font-size: var(--font-size-label);
+  color: var(--color-text-secondary);
+}

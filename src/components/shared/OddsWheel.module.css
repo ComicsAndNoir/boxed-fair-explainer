@@ -1,0 +1,51 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-2) 0;
+}
+
+.track {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 40px;
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  box-shadow: var(--elevation-1);
+}
+
+.segment {
+  height: 100%;
+}
+
+.pointer {
+  position: absolute;
+  top: -14px;
+  width: 4px;
+  height: 68px;
+  border-radius: var(--radius-pill);
+  background: var(--color-text-primary);
+  box-shadow: 0 0 12px var(--color-accent-primary-glow);
+  transform: translateX(-50%);
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--font-size-label);
+  color: var(--color-text-secondary);
+}
+
+.legendSwatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}

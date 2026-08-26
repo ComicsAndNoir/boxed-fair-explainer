@@ -1,0 +1,71 @@
+/*
+ * Design tokens extracted from a boxed.gg screenshot (see ARCHITECTURE.md §1/§5.2).
+ * Color/type values aim for exact-replication fidelity; shape/elevation/spacing
+ * follow Material Design 3 rules (8px grid, tint-based elevation, ≥48px targets).
+ */
+:root {
+  /* Color — surfaces */
+  --color-bg: #0a0d16;
+  --color-surface: #141a2e;
+  --color-surface-raised: #1b2138;
+  --color-border: #232a44;
+
+  /* Color — text */
+  --color-text-primary: #f5f7fa;
+  --color-text-secondary: #8a93a8;
+
+  /* Color — brand accents */
+  --color-accent-primary: #3b82f6;
+  --color-accent-primary-glow: #38bdf8;
+  --color-accent-secondary: #c6ff4d;
+  --color-accent-violet: #8b7cf6;
+  --color-accent-cyan: #4fd1f9;
+  --color-danger: #ef4444;
+
+  /* Color — MD3 state-layer opacities, tinted with the primary accent */
+  --state-hover-opacity: 0.08;
+  --state-press-opacity: 0.12;
+
+  /* Color — rarity */
+  --color-rarity-common: #8a93a8;
+  --color-rarity-uncommon: #3ddc84;
+  --color-rarity-rare: var(--color-accent-primary-glow);
+  --color-rarity-jackpot: var(--color-accent-secondary);
+
+  /* Typography */
+  --font-family-base:
+    "Poppins", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-size-display: 2rem;
+  --font-size-headline: 1.5rem;
+  --font-size-title: 1.125rem;
+  --font-size-body: 0.875rem;
+  --font-size-label: 0.75rem;
+
+  /* Shape (MD3 uses a small/medium/large/extra-large radius scale) */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+
+  /* Spacing — 8px grid */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 32px;
+  --space-6: 48px;
+
+  /* Elevation — glow-based rather than drop-shadow, per the dark UI reference */
+  --elevation-1: 0 0 0 1px var(--color-border);
+  --elevation-2: 0 0 0 1px var(--color-border), 0 0 24px -8px rgba(59, 130, 246, 0.35);
+
+  /* Motion — MD3 standard easing + duration tokens */
+  --motion-easing-standard: cubic-bezier(0.2, 0, 0, 1);
+  --motion-easing-emphasized: cubic-bezier(0.3, 0, 0.1, 1);
+  --motion-duration-short: 150ms;
+  --motion-duration-medium: 300ms;
+  --motion-duration-long: 500ms;
+
+  /* Touch targets */
+  --target-min: 48px;
+}

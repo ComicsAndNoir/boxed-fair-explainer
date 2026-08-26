@@ -1,0 +1,93 @@
+.wrapper {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.article {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.sourceNote {
+  font-size: var(--font-size-label);
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+.title {
+  font-size: var(--font-size-display);
+  font-weight: 700;
+}
+
+.subtitle {
+  font-size: var(--font-size-body);
+  color: var(--color-text-secondary);
+  margin-top: var(--space-1);
+}
+
+.paragraph {
+  font-size: var(--font-size-body);
+  line-height: 1.7;
+  color: var(--color-text-primary);
+}
+
+.tldrBlock {
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+}
+
+.tldrLabel {
+  font-size: var(--font-size-label);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--color-text-secondary);
+}
+
+.sectionHeading {
+  font-size: var(--font-size-title);
+  font-weight: 700;
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--space-4);
+}
+
+.subHeading {
+  font-size: var(--font-size-body);
+  font-weight: 700;
+  margin-top: var(--space-2);
+}
+
+.stepTitle {
+  font-size: var(--font-size-body);
+  font-weight: 700;
+}
+
+.faqQuestion {
+  font-size: var(--font-size-body);
+  font-weight: 700;
+  margin-top: var(--space-3);
+}
+
+.continueRow {
+  padding-top: var(--space-4);
+  display: flex;
+  justify-content: center;
+}
+
+.continueButton {
+  min-height: var(--target-min);
+  padding: 0 var(--space-5);
+  border-radius: var(--radius-pill);
+  border: none;
+  background: var(--color-accent-primary);
+  color: var(--color-text-primary);
+  font-weight: 700;
+  font-size: var(--font-size-body);
+  box-shadow: var(--elevation-2);
+}

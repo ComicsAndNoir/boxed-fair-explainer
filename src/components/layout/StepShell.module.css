@@ -1,0 +1,106 @@
+.shell {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.progress {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-border);
+  transition: background var(--motion-duration-medium) var(--motion-easing-standard),
+    width var(--motion-duration-medium) var(--motion-easing-standard);
+}
+
+.dotActive {
+  width: 24px;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent-primary);
+}
+
+.dotDone {
+  background: var(--color-accent-primary-glow);
+}
+
+.content {
+  flex: 1;
+  min-height: 0;
+  padding: var(--space-2) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  overflow-y: auto;
+}
+
+/*
+ * Without this, flex's default shrink behavior compresses children (e.g.
+ * anything with an explicit min-height) down to their floor when total
+ * content exceeds the shell's fixed height, and their overflow then visually
+ * spills onto the next sibling instead of the intended outcome: this
+ * container scrolls, children keep their natural size.
+ */
+.content > * {
+  flex-shrink: 0;
+}
+
+.heading {
+  font-size: var(--font-size-headline);
+  font-weight: 700;
+}
+
+.heading:focus-visible {
+  outline: none;
+}
+
+.nav {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-4) var(--space-3);
+}
+
+.button {
+  min-height: var(--target-min);
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-md);
+  border: none;
+  font-weight: 700;
+  font-size: var(--font-size-body);
+}
+
+.buttonPrimary {
+  background: var(--color-accent-primary);
+  color: var(--color-text-primary);
+}
+
+.buttonPrimary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.buttonSecondary {
+  background: transparent;
+  color: var(--color-text-secondary);
+}
+
+@media (min-width: 640px) {
+  .content {
+    /* Wider side padding for line-length on desktop — vertical stays tight,
+       this used to reuse --space-4 for both axes and cost 16px of extra
+       vertical padding specifically on laptop/desktop widths. */
+    padding: var(--space-2) var(--space-6);
+  }
+}

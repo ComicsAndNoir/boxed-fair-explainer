@@ -1,0 +1,123 @@
+.wrapper {
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: var(--elevation-1);
+  overflow: hidden;
+}
+
+.trigger {
+  width: 100%;
+  min-height: var(--target-min);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  background: transparent;
+  border: none;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-body);
+  font-weight: 600;
+  text-align: left;
+}
+
+.trigger:hover {
+  background: color-mix(in srgb, var(--color-accent-cyan) var(--state-hover-opacity), transparent);
+}
+
+.triggerLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.chevron {
+  flex-shrink: 0;
+  color: var(--color-text-secondary);
+  transition: transform var(--motion-duration-short) var(--motion-easing-standard);
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+.content {
+  padding: 0 var(--space-3) var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.loading {
+  font-size: var(--font-size-label);
+  color: var(--color-text-secondary);
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.stepLabel {
+  font-size: var(--font-size-label);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.stepPlain {
+  font-size: var(--font-size-label);
+  color: var(--color-text-secondary);
+}
+
+.code {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: var(--font-size-label);
+  color: var(--color-accent-primary-glow);
+  background: var(--color-bg);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+  overflow-x: auto;
+  white-space: pre;
+}
+
+.matchBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--font-size-label);
+  font-weight: 700;
+}
+
+.matchGood {
+  color: var(--color-accent-secondary);
+}
+
+.matchBad {
+  color: var(--color-danger);
+}
+
+.rangeTable {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: var(--font-size-label);
+  background: var(--color-bg);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow-x: auto;
+}
+
+.rangeRow {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+
+.rangeRowActive {
+  color: var(--color-accent-secondary);
+  font-weight: 700;
+}
