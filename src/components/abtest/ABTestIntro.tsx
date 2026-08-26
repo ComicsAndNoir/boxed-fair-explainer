@@ -26,8 +26,8 @@ export function ABTestIntro({ onChoose }: ABTestIntroProps) {
       </div>
 
       <p className={styles.methodNote}>
-        In a real test, you'd be shown one version at random without knowing an alternative exists — that's what
-        keeps the comparison honest. For this demo, you get to pick which one you see.
+        In a real test, you'd be shown one version at random without knowing an alternative exists. 
+        For this demo, you get to pick which one you see.
       </p>
 
       <div className={styles.questionCallout}>

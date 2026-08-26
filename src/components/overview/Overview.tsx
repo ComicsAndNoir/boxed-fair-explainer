@@ -33,8 +33,11 @@ export function Overview({ onStart }: OverviewProps) {
           Learn exactly how we <br /><span>keep things fair</span>
         </h1>
         <p className={styles.heroSubtitle}>
-          A quick, visual walkthrough of how Boxed's fairness system works — using a real (simulated) box opening
-          you control, start to finish.
+          When you draw a card, it's backed by real inventory Boxed holds. You can have the physical card shipped 
+          to you (free within the US) or sell it back for site credit.
+        </p>
+        <p className={styles.heroSubtitle}>
+          <strong>Here's how we ensure the draw is fair, and how you can check.</strong>
         </p>
       </div>
 
