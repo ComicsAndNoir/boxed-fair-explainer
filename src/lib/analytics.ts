@@ -1,13 +1,12 @@
 /**
- * Minimal GA4 wrapper. Two rules drive everything here:
- *  1. Never load or fire on localhost (or any local-dev equivalent) — only
- *     on a real hosted URL. See isLocalHost.
- *  2. Every exported function is a safe no-op before init() runs or when
- *     tracking is disabled, so call sites never need to guard themselves.
+ * GA4 event helpers. The gtag.js snippet itself is hardcoded in index.html's
+ * <head> (loads unconditionally, including on localhost — see ARCHITECTURE.md
+ * §6.4 for why that changed from an earlier localhost-gated version) with the
+ * Measurement ID injected at build time by the Vite plugin in vite.config.ts.
+ * This module only adds the custom event/virtual-pageview layer on top.
  *
- * The measurement ID is a placeholder (see .env.example) until a real GA4
- * property exists — swap it in via VITE_GA_MEASUREMENT_ID, no code changes
- * needed.
+ * Every exported function is a safe no-op if gtag hasn't loaded for any
+ * reason, so call sites never need to guard themselves.
  */
 
 declare global {
@@ -17,59 +16,22 @@ declare global {
   }
 }
 
-const DUMMY_MEASUREMENT_ID = "G-XXXXXXXXXX";
-const MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID || DUMMY_MEASUREMENT_ID;
-
-let enabled = false;
-
-/**
- * Anything a developer would reasonably consider "local dev," not just the
- * literal string "localhost" — 127.0.0.1 and other loopback forms are just
- * as much localhost in practice, and letting analytics fire on them would
- * defeat the point of this check.
- */
-export function isLocalHost(hostname: string): boolean {
-  return (
-    hostname === "localhost" ||
-    hostname === "127.0.0.1" ||
-    hostname === "::1" ||
-    hostname === "0.0.0.0" ||
-    hostname.endsWith(".localhost")
-  );
-}
-
-export function initAnalytics(): void {
-  if (typeof window === "undefined") return;
-  if (isLocalHost(window.location.hostname)) {
-    enabled = false;
-    return;
-  }
-
-  enabled = true;
-
-  const script = document.createElement("script");
-  script.async = true;
-  script.src = `https://www.googletagmanager.com/gtag/js?id=${MEASUREMENT_ID}`;
-  document.head.appendChild(script);
-
-  window.dataLayer = window.dataLayer || [];
-  window.gtag = function gtag(...args: unknown[]) {
-    window.dataLayer!.push(args);
-  };
-  window.gtag("js", new Date());
-  // send_page_view: false — trackPageView below sends every view explicitly,
-  // including the first, so gtag's automatic initial pageview would double-count it.
-  window.gtag("config", MEASUREMENT_ID, { send_page_view: false });
-}
-
 export type EventParams = Record<string, string | number | boolean>;
 
 export function trackEvent(name: string, params?: EventParams): void {
-  if (!enabled || typeof window === "undefined" || !window.gtag) return;
+  if (typeof window === "undefined" || typeof window.gtag !== "function") return;
   window.gtag("event", name, params);
 }
 
-/** A virtual pageview for this SPA's phase/step changes — there's no real router/URL change to hook. */
+/**
+ * A virtual pageview for this SPA's phase/step changes — there's no real
+ * router/URL change to hook. Note: the head snippet's own `gtag('config', ...)`
+ * call already sends one automatic pageview on load, so the very first virtual
+ * pageview fired here (for the initial "intro" phase) will double up with it.
+ * Left as-is to match the requested snippet exactly rather than adding a
+ * `send_page_view: false` override that isn't in it — worth knowing if the
+ * initial landing pageview count looks inflated in GA.
+ */
 export function trackPageView(path: string, title: string): void {
   trackEvent("page_view", {
     page_path: path,

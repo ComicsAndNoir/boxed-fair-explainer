@@ -1,6 +1,19 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=__GA_MEASUREMENT_ID__"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      // send_page_view: false — App.tsx/VariantBExplainer fire an explicit virtual
+      // pageview (with a real page_path per phase/step) on every navigation,
+      // including the first; without this the automatic pageview here would
+      // double-count that first "intro" view.
+      gtag('config', '__GA_MEASUREMENT_ID__', { send_page_view: false });
+    </script>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />

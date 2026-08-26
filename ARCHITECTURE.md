@@ -295,30 +295,43 @@ compression there started trading away visual hierarchy for diminishing
 returns.
 
 ### 6.4 Google Analytics (GA4)
-`src/lib/analytics.ts` is a small `gtag.js` wrapper with one hard rule: never
-load or fire on localhost. `isLocalHost()` treats anything a developer would
-reasonably call "local dev" as localhost — the literal string, `127.0.0.1`,
-`::1`, `0.0.0.0`, and `*.localhost` — not just an exact match, since letting
-analytics fire on `127.0.0.1` while blocking `localhost` would defeat the
-point. This is a deliberate scope decision beyond the literal request; it
-doesn't extend to LAN IPs (e.g. `192.168.x.x`, for testing on a phone) since
-that wasn't asked and starts guessing at edge cases.
+The `gtag.js` snippet is hardcoded directly in `index.html`'s `<head>`
+(Google's standard boilerplate, unmodified) rather than injected conditionally
+from JS — it loads unconditionally now, **including on localhost**. This is a
+deliberate reversal of an earlier version that gated loading behind an
+`isLocalHost()` check; the user asked for that gate to be removed in favor of
+matching a specific snippet exactly, so the tradeoff (dev traffic can reach
+GA once a real Measurement ID is in place) is intentional, not an oversight.
 
-`initAnalytics()` (called once from `main.tsx`) checks the real
-`window.location.hostname` and either no-ops entirely — no script tag, no
-network request, `window.gtag` stays undefined — or injects `gtag.js` and
-wires up `dataLayer`. Every other exported function (`trackEvent`,
-`trackPageView`) is a safe no-op when disabled, so call sites never guard
-themselves. Verified in-browser: a full click-through of both variants on
-localhost produced zero requests to `googletagmanager.com`, no script tag, no
-console errors; the real exported `isLocalHost` (imported directly from the
-dev server's module graph, not reimplemented) correctly returns `false` for
-a real domain and a realistic Vercel preview URL, `true` for every localhost
-form above.
+**Measurement ID injection**: `index.html` uses a `__GA_MEASUREMENT_ID__`
+placeholder in both spots the snippet references it. `vite.config.ts` defines
+a small `transformIndexHtml` plugin (`injectGaId`) that resolves the real
+value via `loadEnv` — from `VITE_GA_MEASUREMENT_ID` if set (only expected to
+be set in deployed environments, e.g. Render), falling back to the dummy
+`G-XXXXXXXXXX` otherwise — and substitutes it at both build time and in the
+dev server (Vite calls `transformIndexHtml` for both, so `npm run dev` and
+`npm run build` behave consistently). Verified directly: built `dist/index.html`
+with no env var set shows `G-XXXXXXXXXX` in both spots; rebuilding with
+`VITE_GA_MEASUREMENT_ID=G-REAL12345` set shows that real value in both spots
+instead. `src/lib/analytics.ts` no longer owns the ID or the loading logic —
+it's now purely the custom-event/virtual-pageview layer on top of whatever
+`window.gtag` the head snippet already defined.
 
-**Measurement ID**: a placeholder (`G-XXXXXXXXXX`) until a real GA4 property
-exists, read from `VITE_GA_MEASUREMENT_ID` (see `.env.example`) with the
-placeholder as fallback — swapping in the real ID needs no code changes.
+**Resolved double-count**: the snippet's own `gtag('config', ...)` call sends
+one automatic pageview on load, same as `trackPageView`'s virtual pageview for
+the initial "intro" phase — so the very first landing pageview would double-
+count between the two. Fixed by adding `{ send_page_view: false }` to the
+`config` call (the one deviation from the snippet as literally given, at the
+user's explicit follow-up request) — `trackPageView` is now the sole source
+of every pageview, including the first, each with a real `page_path` the
+automatic one never had anyway. Verified via a production build: `dataLayer`
+shows exactly one `page_view` event on load, for `/intro`.
+
+Confirmed via a production build (`vite preview`, not the dev server) that
+custom events land in `dataLayer` correctly and exactly once per action —
+`npm run dev`'s apparent double-firing on the very first click is React
+StrictMode's dev-only double-invoke of effects, not a real duplicate; it
+doesn't happen in the actual built app.
 
 **Funnel tracking**: this SPA has no router — `App.tsx`'s `phase` state and
 `VariantBExplainer`'s `step` state are the only "navigation" that exists.
